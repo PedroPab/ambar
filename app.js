@@ -1,6 +1,55 @@
-// ==== CONFIGURACIÓN: CAMBIA ESTA RUTA A TU .m3u8 ====
-const HLS_URL = "public/output.m3u8";
-const NOMBRE_TEMA = "Mi Canción Especial";
+// ==== CONFIGURACIÓN DE CANCIONES ====
+const CANCIONES = {
+    "cancion1": {
+        url: "public/cancion1/output.m3u8",
+        titulo: "Mi Primera Canción",
+        artista: "Artista 1"
+    },
+    "cancion2": {
+        url: "public/cancion2/output.m3u8",
+        titulo: "Mi Segunda Canción",
+        artista: "Artista 2"
+    },
+    "cancion3": {
+        url: "public/cancion3/output.m3u8",
+        titulo: "Mi Tercera Canción",
+        artista: "Artista 3"
+    },
+    "hate": {
+        url: "public/hate/output.m3u8",
+        titulo: "Hate Song",
+        artista: "Artista Hate"
+    },
+    // Puedes agregar más canciones aquí
+    "default": {
+        url: "public/hate/output.m3u8",
+        titulo: "Mi Canción Especial",
+        artista: "Artista Desconocido"
+    }
+};
+
+// ==== OBTENER CANCIÓN DESDE URL ====
+function obtenerCancionDesdeURL() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const cancionId = urlParams.get('cancion') || urlParams.get('song') || urlParams.get('track');
+    console.log("🔍 Buscando canción en URL:", cancionId);
+    // Si hay un ID de canción en la URL y existe en nuestro catálogo
+    if (cancionId && CANCIONES[cancionId]) {
+        return CANCIONES[cancionId];
+    }
+    console.log("❗ No se especificó canción o no se encontró, usando canción por defecto.");
+
+    // Si no, usar la canción por defecto
+    return CANCIONES['default'];
+}
+
+// Obtener la canción a reproducir
+const cancionActual = obtenerCancionDesdeURL();
+const HLS_URL = cancionActual.url;
+const NOMBRE_TEMA = cancionActual.titulo;
+
+console.log(`🎵 Cargando: ${NOMBRE_TEMA}`);
+console.log(`📂 URL: ${HLS_URL}`);
 
 // ==== ELEMENTOS DOM ====
 const audio = document.getElementById("audioElement");
@@ -51,10 +100,10 @@ function setStatus(text, type = "ok") {
 }
 
 // ==== CARGA HLS ====
-function setupAudio() {
+function setupAudio(url) {
     if (window.Hls && Hls.isSupported()) {
         const hls = new Hls();
-        hls.loadSource(HLS_URL);
+        hls.loadSource(url);
         hls.attachMedia(audio);
 
         hls.on(Hls.Events.MANIFEST_PARSED, () => {
@@ -67,14 +116,45 @@ function setupAudio() {
         });
     } else if (audio.canPlayType("application/vnd.apple.mpegurl")) {
         // Soporte nativo (Safari, iOS)
-        audio.src = HLS_URL;
+        audio.src = url;
         setStatus("Cargado con soporte nativo", "ok");
     } else {
         setStatus("Tu navegador no soporta HLS", "error");
     }
 }
 
-setupAudio();
+// Cargar la canción inicial
+setupAudio(HLS_URL);
+
+// ==== CAMBIAR CANCIÓN DINÁMICAMENTE ====
+function cambiarCancion(cancionId) {
+    if (!CANCIONES[cancionId]) {
+        console.error(`❌ Canción "${cancionId}" no encontrada`);
+        return;
+    }
+
+    const nuevaCancion = CANCIONES[cancionId];
+
+    // Pausar audio actual
+    audio.pause();
+    audio.currentTime = 0;
+
+    // Actualizar información
+    trackTitle.textContent = nuevaCancion.titulo;
+    setStatus("Cargando nueva canción...", "ok");
+
+    // Cargar nueva canción
+    setupAudio(nuevaCancion.url);
+
+    // Actualizar URL sin recargar la página
+    const nuevaURL = `${window.location.pathname}?cancion=${cancionId}`;
+    window.history.pushState({ cancionId }, '', nuevaURL);
+
+    console.log(`🎵 Canción cambiada a: ${nuevaCancion.titulo}`);
+}
+
+// Exponer función globalmente para uso desde consola o botones
+window.cambiarCancion = cambiarCancion;
 
 // ==== PLAY / PAUSE ====
 function updatePlayUI(isPlaying) {

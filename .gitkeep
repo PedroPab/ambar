@@ -1,0 +1,26 @@
+# Carpeta para archivos HLS
+
+Coloca aquí tus archivos `.m3u8` y `.ts` generados con FFmpeg.
+
+## Ejemplo de estructura:
+```
+public/
+├── output.m3u8
+├── segment_000.ts
+├── segment_001.ts
+├── segment_002.ts
+└── ...
+```
+
+## Generar archivos HLS con FFmpeg:
+
+```bash
+ffmpeg -i tu-cancion.mp3 \
+  -codec:a aac \
+  -b:a 128k \
+  -f hls \
+  -hls_time 10 \
+  -hls_list_size 0 \
+  -hls_segment_filename "public/segment_%03d.ts" \
+  public/output.m3u8
+```
