@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Escucha la Canción</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Página para escuchar una canción en streaming con calidad profesional." />
+
+  <!-- Fuente bonita -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Estilos CSS -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="background-orbit">
+    <div class="orbit orbit-1"></div>
+    <div class="orbit orbit-2"></div>
+  </div>
+
+  <div class="container">
+    <!-- Panel principal del reproductor -->
+    <div class="card">
+      <div class="badge">
+        <span class="badge-dot"></span>
+        Streaming optimizado · HLS .m3u8
+      </div>
+
+      <h1>
+        Escucha tu <span class="headline-highlight">canción en modo profesional</span>
+      </h1>
+
+      <p class="subtitle">
+        Reproducción por fragmentos (HLS) para que tu audio cargue rápido, fluido y con calidad, incluso en conexiones
+        lentas. Ideal para VSL, lanzamientos y páginas de venta.
+      </p>
+
+      <div class="chips">
+        <div class="chip">
+          <span class="chip-dot"></span>
+          Streaming HLS (.m3u8)
+        </div>
+        <div class="chip">
+          <span class="chip-dot"></span>
+          Optimizado para VSL
+        </div>
+        <div class="chip">
+          <span class="chip-dot"></span>
+          Reproducción estable
+        </div>
+      </div>
+
+      <div class="wave-card">
+        <div class="wave-header">
+          <div class="wave-title">
+            <span class="wave-title-main" id="trackTitle">Mi canción</span>
+            <span id="streamStatus" class="status-pill">
+              <span class="status-dot"></span>
+              Listo para reproducir
+            </span>
+          </div>
+          <span class="wave-badge">Audio Master · HLS</span>
+        </div>
+
+        <!-- Visual fake de onda -->
+        <div class="fake-wave">
+          <div class="fake-wave-lines" id="fakeWaveLines"></div>
+          <div class="fake-wave-overlay"></div>
+        </div>
+
+        <!-- Controles -->
+        <div class="player-controls">
+          <div class="main-controls">
+            <button class="btn-primary" id="playPauseBtn">
+              <span id="playIcon">▶</span>
+              <span id="pauseIcon" style="display:none;">⏸</span>
+              <span id="playLabel">Reproducir</span>
+            </button>
+
+            <button class="btn-icon" id="back10Btn" title="-10s">
+              ⏪
+            </button>
+            <button class="btn-icon" id="forward10Btn" title="+10s">
+              ⏩
+            </button>
+
+            <div class="time-display">
+              <span id="currentTime">00:00</span>
+              <span class="bullet"></span>
+              <span id="duration">--:--</span>
+            </div>
+          </div>
+
+          <div class="range-row">
+            <div class="label-row">
+              <span>Progreso</span>
+              <span id="progressLabel">0%</span>
+            </div>
+            <input id="seekBar" class="range" type="range" min="0" max="100" step="0.1" value="0" />
+          </div>
+
+          <div class="volume-row">
+            <span class="volume-icon" id="volumeIcon">🔊</span>
+            <input id="volumeBar" class="range" type="range" min="0" max="1" step="0.02" value="0.9" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Audio real (oculto) -->
+      <audio id="audioElement" preload="auto"></audio>
+    </div>
+
+    <!-- Panel lateral: explicación / copy -->
+    <div class="side-card">
+      <div>
+        <div class="side-section-title">Experiencia para tu visitante</div>
+        <p class="side-main-text">
+          Tu canción se sirve en
+          <span class="side-highlight">fragmentos pequeños (.ts) organizados por un playlist .m3u8</span>.
+          Eso significa menos tiempo de espera, mejor estabilidad y una sensación mucho más profesional en tu página.
+        </p>
+      </div>
+
+      <div>
+        <div class="side-section-title">Ventajas de usar HLS (como los VSL)</div>
+        <ul class="side-list">
+          <li>
+            <span class="side-list-bullet"></span>
+            <span>La canción empieza a sonar sin descargar el archivo completo.</span>
+          </li>
+          <li>
+            <span class="side-list-bullet"></span>
+            <span>Funciona perfecto para audios pesados, versiones largas y VSL.</span>
+          </li>
+          <li>
+            <span class="side-list-bullet"></span>
+            <span>Preparado para integrarse con S3 / MinIO o cualquier servidor estático.</span>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="side-section-title">Tecnología detrás</div>
+        <div class="pill-row">
+          <span class="pill">FFmpeg · HLS</span>
+          <span class="pill">.m3u8 + .ts</span>
+          <span class="pill">hls.js en el navegador</span>
+          <span class="pill">Compatible con móviles</span>
+        </div>
+      </div>
+
+      <p class="small-footer">
+        Solo cambia la ruta del archivo
+        <strong>output.m3u8</strong> en el código, súbelo a tu hosting o bucket, y tu página ya estará lista para
+        reproducirlo en streaming.
+      </p>
+    </div>
+  </div>
+
+  <!-- hls.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  
+  <!-- JavaScript de la aplicación -->
+  <script src="app.js"></script>
+</body>
+</html>
