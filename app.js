@@ -188,17 +188,21 @@ audio.addEventListener("play", () => updatePlayUI(true));
 audio.addEventListener("pause", () => updatePlayUI(false));
 
 // ==== SALTOS +/- 10s ====
-back10Btn.addEventListener("click", () => {
-    audio.currentTime = Math.max(0, audio.currentTime - 10);
-});
+if (back10Btn) {
+    back10Btn.addEventListener("click", () => {
+        audio.currentTime = Math.max(0, audio.currentTime - 10);
+    });
+}
 
-forward10Btn.addEventListener("click", () => {
-    if (isFinite(audio.duration)) {
-        audio.currentTime = Math.min(audio.duration, audio.currentTime + 10);
-    } else {
-        audio.currentTime += 10;
-    }
-});
+if (forward10Btn) {
+    forward10Btn.addEventListener("click", () => {
+        if (isFinite(audio.duration)) {
+            audio.currentTime = Math.min(audio.duration, audio.currentTime + 10);
+        } else {
+            audio.currentTime += 10;
+        }
+    });
+}
 
 // ==== PROGRESO ====
 audio.addEventListener("timeupdate", () => {
