@@ -1,139 +1,85 @@
-# 🎵 Reproductor HLS con Soporte Multi-Canción
+# 🎵 Reproductor de Audio con HLS
 
-Reproductor de audio HLS que permite cambiar de canción mediante parámetros en la URL.
+Interfaz sencilla para reproducir audio usando **HLS (HTTP Live Streaming)** que mejora el rendimiento de tu página web. El audio se carga por fragmentos, haciendo que la reproducción sea más rápida y fluida.
 
-## 📖 Cómo Usar
+## ✨ Características
 
-### Método 1: Parámetros URL
+- 🚀 Reproducción rápida usando fragmentos HLS
+- 🎛️ Controles de play/pause, volumen y progreso
+- 📱 Diseño responsive (funciona en móvil y escritorio)
+- 🎨 Interfaz moderna con efectos visuales
+- 🔄 Soporte para múltiples canciones vía URL
+- 🎯 Logo/marca personalizable
 
-Puedes acceder a diferentes canciones agregando parámetros a la URL:
+---
 
-```
-# Canción 1
-http://localhost:8000/?cancion=cancion1
+## 📋 Requisitos
 
-# Canción 2
-http://localhost:8000/?cancion=cancion2
+Antes de comenzar, necesitas tener instalado **FFmpeg**:
 
-# Canción 3
-http://localhost:8000/?cancion=cancion3
+```bash
+# Ubuntu/Debian
+sudo apt install ffmpeg
 
-# Canción por defecto (sin parámetro)
-http://localhost:8000/
-```
+# Fedora
+sudo dnf install ffmpeg
 
-**Parámetros válidos:**
-- `?cancion=ID` (español)
-- `?song=ID` (inglés)
-- `?track=ID` (alternativo)
-
-### Método 2: JavaScript
-
-Puedes cambiar de canción desde la consola del navegador o mediante código:
-
-```javascript
-// Cambiar a canción 1
-cambiarCancion('cancion1');
-
-// Cambiar a canción 2
-cambiarCancion('cancion2');
-
-// Cambiar a canción 3
-cambiarCancion('cancion3');
+# macOS
+brew install ffmpeg
 ```
 
-### Método 3: Botones HTML (opcional)
+Verifica la instalación:
 
-Puedes agregar botones en tu HTML para cambiar canciones:
-
-```html
-<button onclick="cambiarCancion('cancion1')">Canción 1</button>
-<button onclick="cambiarCancion('cancion2')">Canción 2</button>
-<button onclick="cambiarCancion('cancion3')">Canción 3</button>
+```bash
+ffmpeg -version
 ```
 
-## 🎼 Configurar Canciones
+---
 
-Edita el objeto `CANCIONES` en `app.js`:
+## 🚀 Uso Rápido
+
+### 1. Convertir tu audio a HLS
+
+**Opción A - Usar el script automático (recomendado):**
+
+```bash
+chmod +x convert.sh
+./convert.sh tu-cancion.mp3
+```
+
+Esto creará automáticamente la carpeta `public/tu-cancion/` con todos los archivos necesarios.
+
+**Opción B - Conversión manual con FFmpeg:**
+
+```bash
+ffmpeg -i cancion.mp3 \
+  -vn \
+  -acodec aac \
+  -b:a 128k \
+  -hls_time 5 \
+  -hls_playlist_type vod \
+  -hls_segment_filename "media/segmento_%03d.ts" \
+  media/output.m3u8
+```
+
+### 2. Agregar la canción al catálogo
+
+Abre `app.js` y agrega tu canción al objeto `CANCIONES`:
+
+**⚠️ IMPORTANTE:** La clave (key) del objeto debe ser **exactamente igual** al nombre que usarás en la URL.
 
 ```javascript
 const CANCIONES = {
-  "cancion1": {
-    url: "public/cancion1/output.m3u8",
-    titulo: "Mi Primera Canción",
-    artista: "Artista 1"
+  "mi-cancion": {              // ← Este es el key (debe coincidir con la URL)
+    url: "public/mi-cancion/output.m3u8",
+    titulo: "Nombre de mi canción",
+    artista: "Artista"
   },
-  "cancion2": {
-    url: "public/cancion2/output.m3u8",
-    titulo: "Mi Segunda Canción",
-    artista: "Artista 2"
-  },
-  // Agregar más canciones aquí...
+  // ... más canciones
 };
 ```
 
-## 📁 Estructura de Carpetas Recomendada
-
-```
-playMusicPili/
-├── index.html
-├── app.js
-├── styles.css
-└── public/
-    ├── cancion1/
-    │   ├── output.m3u8
-    │   ├── segment_000.ts
-    │   └── segment_001.ts
-    ├── cancion2/
-    │   ├── output.m3u8
-    │   ├── segment_000.ts
-    │   └── segment_001.ts
-    └── cancion3/
-        ├── output.m3u8
-        ├── segment_000.ts
-        └── segment_001.ts
-```
-
-## 🔧 Generar Archivos HLS
-
-Para cada canción, genera archivos HLS con FFmpeg:
-
-```bash
-# Canción 1
-mkdir -p public/cancion1
-ffmpeg -i cancion1.mp3 \
-  -codec:a aac \
-  -b:a 128k \
-  -f hls \
-  -hls_time 10 \
-  -hls_list_size 0 \
-  -hls_segment_filename "public/cancion1/segment_%03d.ts" \
-  public/cancion1/output.m3u8
-
-# Canción 2
-mkdir -p public/cancion2
-ffmpeg -i cancion2.mp3 \
-  -codec:a aac \
-  -b:a 128k \
-  -f hls \
-  -hls_time 10 \
-  -hls_list_size 0 \
-  -hls_segment_filename "public/cancion2/segment_%03d.ts" \
-  public/cancion2/output.m3u8
-
-# Canción 3
-mkdir -p public/cancion3
-ffmpeg -i cancion3.mp3 \
-  -codec:a aac \
-  -b:a 128k \
-  -f hls \
-  -hls_time 10 \
-  -hls_list_size 0 \
-  -hls_segment_filename "public/cancion3/segment_%03d.ts" \
-  public/cancion3/output.m3u8
-```
-
-## 🚀 Ejecutar el Proyecto
+### 3. Iniciar servidor local
 
 ```bash
 # Con Python
@@ -141,51 +87,86 @@ python3 -m http.server 8000
 
 # Con Node.js
 npx http-server -p 8000
-
-# Luego abre en el navegador
-http://localhost:8000/?cancion=cancion1
 ```
 
-## 💡 Ejemplos de URLs
+### 4. Abrir en el navegador
+
+**La canción se accede por el PATH de la URL:**
+
+**Ejemplos:**
+
+- `http://localhost:8000/hate` → Carga la canción con key `"hate"`
+- `http://localhost:8000/cancion1` → Carga la canción con key `"cancion1"`
+- `http://localhost:8000/` → Carga la canción `"default"`
+
+---
+
+## 🎼 Agregar Más Canciones
+
+1. Convierte tu audio:
+
+   ```bash
+   ./convert.sh cancion1.mp3
+   ./convert.sh cancion2.mp3
+   ./convert.sh rock-song.mp3
+   ```
+
+2. Edita `app.js` y agrega las canciones:
+
+   **⚠️ IMPORTANTE:** El key del objeto debe ser igual al path de la URL.
+
+   ```javascript
+   const CANCIONES = {
+     "cancion1": {                    // Key = "cancion1"
+       url: "public/cancion1/output.m3u8",
+       titulo: "Canción 1",
+       artista: "Artista 1"
+     },
+     "rock-song": {                   // Key = "rock-song"
+       url: "public/rock-song/output.m3u8",
+       titulo: "Rock Song",
+       artista: "Rockstar"
+     }
+   };
+   ```
+
+3. Accede usando el **PATH** de la URL (el mismo que el key):
+
+   ```
+   http://localhost:8000/cancion1      ← Key: "cancion1"
+   http://localhost:8000/rock-song     ← Key: "rock-song"
+   ```
+
+### 📍 Regla importante
 
 ```
-# Producción
-https://tudominio.com/?cancion=cancion1
-https://tudominio.com/?song=cancion2
-https://tudominio.com/?track=cancion3
+URL Path = Key del objeto CANCIONES
 
-# Desarrollo local
-http://localhost:8000/?cancion=cancion1
-http://localhost:8000/?cancion=cancion2
-http://localhost:8000/?cancion=cancion3
+Ejemplo:
+  Key en app.js:  "mi-banda-favorita"
+  URL correcta:   /mi-banda-favorita
+  URL incorrecta: /miBandaFavorita  ❌
 ```
 
-## 🎯 Características
+---
 
-- ✅ Cambio de canción por URL sin recargar la página
-- ✅ Soporte para múltiples parámetros (cancion, song, track)
-- ✅ Historial del navegador actualizado automáticamente
-- ✅ Función JavaScript expuesta globalmente
-- ✅ Logging en consola para debugging
-- ✅ Fallback a canción por defecto
-- ✅ Compatible con HLS nativo (Safari/iOS) y hls.js
+## 🧪 Probado en
 
-## 🐛 Debug
+- ✅ Linux (Ubuntu, Fedora)
+- ✅ Navegadores: Chrome, Firefox
 
-Abre la consola del navegador (F12) para ver logs:
+---
 
-```
-🎵 Cargando: Mi Primera Canción
-📂 URL: public/cancion1/output.m3u8
-```
+## ❓ Preguntas Frecuentes
 
-Si una canción no existe:
-```
-❌ Canción "cancion4" no encontrada
-```
+**¿Por qué usar HLS en vez de MP3 directo?**
 
-## 📝 Notas
+- Carga más rápido (por fragmentos)
+- Mejor para archivos grandes
+- Menos consumo de datos inicial
 
-- Los IDs de canciones distinguen entre mayúsculas y minúsculas
-- Si el parámetro URL no existe, se usa la canción "default"
-- La función `cambiarCancion()` está disponible globalmente en `window.cambiarCancion`
+**¿Puedo usar otros formatos de audio?**
+
+- Sí, FFmpeg soporta: MP3, WAV, FLAC, OGG, M4A, etc.
+
+---

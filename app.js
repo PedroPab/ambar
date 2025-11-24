@@ -30,13 +30,20 @@ const CANCIONES = {
 
 // ==== OBTENER CANCIÓN DESDE URL ====
 function obtenerCancionDesdeURL() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const cancionId = urlParams.get('cancion') || urlParams.get('song') || urlParams.get('track');
-    console.log("🔍 Buscando canción en URL:", cancionId);
-    // Si hay un ID de canción en la URL y existe en nuestro catálogo
+    // Obtener el path de la URL (ej: /hate, /cancion1, etc.)
+    const path = window.location.pathname;
+
+    // Extraer el ID de la canción del path (eliminar el / inicial)
+    const cancionId = path.substring(1) || null;
+
+    console.log("🔍 Path detectado:", path);
+    console.log("🔍 Buscando canción:", cancionId);
+
+    // Si hay un ID de canción en el path y existe en nuestro catálogo
     if (cancionId && CANCIONES[cancionId]) {
         return CANCIONES[cancionId];
     }
+
     console.log("❗ No se especificó canción o no se encontró, usando canción por defecto.");
 
     // Si no, usar la canción por defecto
@@ -146,8 +153,8 @@ function cambiarCancion(cancionId) {
     // Cargar nueva canción
     setupAudio(nuevaCancion.url);
 
-    // Actualizar URL sin recargar la página
-    const nuevaURL = `${window.location.pathname}?cancion=${cancionId}`;
+    // Actualizar URL sin recargar la página (cambiar el path)
+    const nuevaURL = `/${cancionId}`;
     window.history.pushState({ cancionId }, '', nuevaURL);
 
     console.log(`🎵 Canción cambiada a: ${nuevaCancion.titulo}`);

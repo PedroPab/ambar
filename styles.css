@@ -23,9 +23,11 @@ body {
   background: radial-gradient(circle at top left, #1d1f4d 0, #060716 40%, #020311 100%);
   color: var(--text);
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   padding: 24px;
+  padding-top: 40px;
 }
 
 .background-orbit {
@@ -57,6 +59,52 @@ body {
   background: radial-gradient(circle, rgba(255, 107, 203, 0.9), transparent 60%);
   bottom: -120px;
   right: -60px;
+}
+
+.logo-container {
+  width: 100%;
+  max-width: 980px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 32px;
+  padding: 20px;
+}
+
+.logo-container img {
+  max-width: 200px;
+  max-height: 80px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 12px rgba(255, 107, 203, 0.3));
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.logo-container img:hover {
+  transform: scale(1.05);
+  filter: drop-shadow(0 6px 16px rgba(255, 107, 203, 0.5));
+}
+
+.brand-name {
+  font-size: 32px;
+  font-weight: 700;
+  background: linear-gradient(120deg, var(--accent), var(--accent-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-align: center;
+  letter-spacing: 0.02em;
+  filter: drop-shadow(0 2px 8px rgba(255, 107, 203, 0.4));
+}
+
+@media (max-width: 600px) {
+  .logo-container img {
+    max-width: 150px;
+    max-height: 60px;
+  }
+  
+  .brand-name {
+    font-size: 24px;
+  }
 }
 
 .container {
