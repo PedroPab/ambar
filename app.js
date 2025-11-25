@@ -84,6 +84,7 @@ function obtenerCancionDesdeURL() {
 
 // Obtener la canción a reproducir
 const cancionActual = obtenerCancionDesdeURL();
+console.log("🎶 Canción seleccionada:", cancionActual);
 const HLS_URL = cancionActual.url;
 const NOMBRE_TEMA = cancionActual.titulo;
 const TITULO_DISPLAY = cancionActual.tituloDisplay;
@@ -103,14 +104,10 @@ const currentTimeEl = document.getElementById("currentTime");
 const durationEl = document.getElementById("duration");
 const seekBar = document.getElementById("seekBar");
 const progressLabel = document.getElementById("progressLabel");
-const volumeBar = document.getElementById("volumeBar");
-const volumeIcon = document.getElementById("volumeIcon");
 const streamStatus = document.getElementById("streamStatus");
-const trackTitle = document.getElementById("trackTitle");
 const fakeWaveLines = document.getElementById("fakeWaveLines");
 const mainTitle = document.getElementById("mainTitle");
 
-trackTitle.textContent = NOMBRE_TEMA;
 mainTitle.textContent = TITULO_DISPLAY;
 
 // ==== WAVE VISUAL FAKE ====
@@ -182,7 +179,6 @@ function cambiarCancion(cancionId) {
     audio.currentTime = 0;
 
     // Actualizar información
-    trackTitle.textContent = nuevaCancion.titulo;
     document.getElementById('mainTitle').textContent = nuevaCancion.tituloDisplay;
     setStatus("Cargando nueva canción...", "ok");
 
@@ -284,28 +280,6 @@ seekBar.addEventListener("change", () => {
         audio.currentTime = newTime;
     }
     isSeeking = false;
-});
-
-// ==== VOLUMEN ====
-function updateVolumeIcon(vol) {
-    if (vol === 0) {
-        volumeIcon.textContent = "🔇";
-    } else if (vol < 0.45) {
-        volumeIcon.textContent = "🔈";
-    } else if (vol < 0.8) {
-        volumeIcon.textContent = "🔉";
-    } else {
-        volumeIcon.textContent = "🔊";
-    }
-}
-
-audio.volume = parseFloat(volumeBar.value);
-updateVolumeIcon(audio.volume);
-
-volumeBar.addEventListener("input", () => {
-    const vol = parseFloat(volumeBar.value);
-    audio.volume = vol;
-    updateVolumeIcon(vol);
 });
 
 // Opcional: reproducir con barra espaciadora
