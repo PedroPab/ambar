@@ -1,30 +1,55 @@
 // ==== CONFIGURACIÓN DE CANCIONES ====
 const CANCIONES = {
-    "cancion1": {
-        url: "public/cancion1/output.m3u8",
-        titulo: "Mi Primera Canción",
-        artista: "Artista 1"
+    "01_Alexis_El aroma que vuelve a traerla": {
+        url: "public/01_Alexis_El aroma que vuelve a traerla/output.m3u8",
+        titulo: "01-Alexis-El-aroma-que-vuelve-a-traerla",
+        artista: "Alexis"
     },
-    "cancion2": {
-        url: "public/cancion2/output.m3u8",
-        titulo: "Mi Segunda Canción",
-        artista: "Artista 2"
+    "02_Daniel_Lo que me sostuvo ": {
+        url: "public/02_Daniel_Lo que me sostuvo /output.m3u8",
+        titulo: "02-Daniel-Lo-que-me-sostuvo",
+        artista: "Daniel"
     },
-    "cancion3": {
-        url: "public/cancion3/output.m3u8",
-        titulo: "Mi Tercera Canción",
-        artista: "Artista 3"
+    "03_Pilar_La presencia que se queda": {
+        url: "public/03_Pilar_La presencia que se queda/output.m3u8",
+        titulo: "03-Pilar-La-presencia-que-se-queda",
+        artista: "Pilar"
+    },
+    "04_Yeison_La luna y el mar": {
+        url: "public/04_Yeison_La luna y el mar/output.m3u8",
+        titulo: "04-Yeison-La-luna-y-el-mar",
+        artista: "Yeison"
+    },
+    "05_Miguel_La noche que volvio": {
+        url: "public/05_Miguel_La noche que volvio/output.m3u8",
+        titulo: "05-Miguel-La-noche-que-volvio",
+        artista: "Miguel"
+    },
+    "06_Maria camila_El lugar exacto": {
+        url: "public/06_Maria camila_El lugar exacto/output.m3u8",
+        titulo: "06-Maria-camila-El-lugar-exacto",
+        artista: "Maria camila"
+    },
+    "07_Mariana henao_Cuando volvió la luz": {
+        url: "public/07_Mariana henao_Cuando volvió la luz/output.m3u8",
+        titulo: "07-Mariana-henao-Cuando-volvió-la-luz",
+        artista: "Mariana henao"
+    },
+    "08_Sara_El amor mas grande": {
+        url: "public/08_Sara_El amor mas grande/output.m3u8",
+        titulo: "08-Sara-El-amor-mas-grande",
+        artista: "Sara"
     },
     "hate": {
         url: "public/hate/output.m3u8",
-        titulo: "Hate Song",
-        artista: "Artista Hate"
+        titulo: "hate",
+        artista: "Artista"
     },
-    // Puedes agregar más canciones aquí
+    // Canción por defecto
     "default": {
-        url: "public/hate/output.m3u8",
-        titulo: "Mi Canción Especial",
-        artista: "Artista Desconocido"
+        url: "public/01_Alexis_El aroma que vuelve a traerla/output.m3u8",
+        titulo: "01-Alexis-El-aroma-que-vuelve-a-traerla",
+        artista: "Alexis"
     }
 };
 
