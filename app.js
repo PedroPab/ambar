@@ -3,52 +3,62 @@ const CANCIONES = {
     "01_Alexis_El aroma que vuelve a traerla": {
         url: "public/01_Alexis_El aroma que vuelve a traerla/output.m3u8",
         titulo: "01-Alexis-El-aroma-que-vuelve-a-traerla",
+        tituloDisplay: "El aroma que vuelve a traerla",
         artista: "Alexis"
     },
     "02_Daniel_Lo que me sostuvo ": {
         url: "public/02_Daniel_Lo que me sostuvo /output.m3u8",
         titulo: "02-Daniel-Lo-que-me-sostuvo",
+        tituloDisplay: "Lo que me sostuvo",
         artista: "Daniel"
     },
     "03_Pilar_La presencia que se queda": {
         url: "public/03_Pilar_La presencia que se queda/output.m3u8",
         titulo: "03-Pilar-La-presencia-que-se-queda",
+        tituloDisplay: "La presencia que se queda",
         artista: "Pilar"
     },
     "04_Yeison_La luna y el mar": {
         url: "public/04_Yeison_La luna y el mar/output.m3u8",
         titulo: "04-Yeison-La-luna-y-el-mar",
+        tituloDisplay: "La luna y el mar",
         artista: "Yeison"
     },
     "05_Miguel_La noche que volvio": {
         url: "public/05_Miguel_La noche que volvio/output.m3u8",
         titulo: "05-Miguel-La-noche-que-volvio",
+        tituloDisplay: "La noche que volvió",
         artista: "Miguel"
     },
     "06_Maria camila_El lugar exacto": {
         url: "public/06_Maria camila_El lugar exacto/output.m3u8",
         titulo: "06-Maria-camila-El-lugar-exacto",
-        artista: "Maria camila"
+        tituloDisplay: "El lugar exacto",
+        artista: "Maria Camila"
     },
     "07_Mariana henao_Cuando volvió la luz": {
         url: "public/07_Mariana henao_Cuando volvió la luz/output.m3u8",
         titulo: "07-Mariana-henao-Cuando-volvió-la-luz",
-        artista: "Mariana henao"
+        tituloDisplay: "Cuando volvió la luz",
+        artista: "Mariana Henao"
     },
     "08_Sara_El amor mas grande": {
         url: "public/08_Sara_El amor mas grande/output.m3u8",
         titulo: "08-Sara-El-amor-mas-grande",
+        tituloDisplay: "El amor más grande",
         artista: "Sara"
     },
     "hate": {
         url: "public/hate/output.m3u8",
         titulo: "hate",
+        tituloDisplay: "Hate",
         artista: "Artista"
     },
     // Canción por defecto
     "default": {
         url: "public/01_Alexis_El aroma que vuelve a traerla/output.m3u8",
         titulo: "01-Alexis-El-aroma-que-vuelve-a-traerla",
+        tituloDisplay: "El aroma que vuelve a traerla",
         artista: "Alexis"
     }
 };
@@ -76,8 +86,9 @@ function obtenerCancionDesdeURL() {
 const cancionActual = obtenerCancionDesdeURL();
 const HLS_URL = cancionActual.url;
 const NOMBRE_TEMA = cancionActual.titulo;
+const TITULO_DISPLAY = cancionActual.tituloDisplay;
 
-console.log(`🎵 Cargando: ${NOMBRE_TEMA}`);
+console.log(`🎵 Cargando: ${TITULO_DISPLAY}`);
 console.log(`📂 URL: ${HLS_URL}`);
 
 // ==== ELEMENTOS DOM ====
@@ -97,8 +108,10 @@ const volumeIcon = document.getElementById("volumeIcon");
 const streamStatus = document.getElementById("streamStatus");
 const trackTitle = document.getElementById("trackTitle");
 const fakeWaveLines = document.getElementById("fakeWaveLines");
+const mainTitle = document.getElementById("mainTitle");
 
 trackTitle.textContent = NOMBRE_TEMA;
+mainTitle.textContent = TITULO_DISPLAY;
 
 // ==== WAVE VISUAL FAKE ====
 const bars = 40;
@@ -170,6 +183,7 @@ function cambiarCancion(cancionId) {
 
     // Actualizar información
     trackTitle.textContent = nuevaCancion.titulo;
+    document.getElementById('mainTitle').textContent = nuevaCancion.tituloDisplay;
     setStatus("Cargando nueva canción...", "ok");
 
     // Cargar nueva canción
