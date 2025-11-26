@@ -77,12 +77,12 @@ body {
 
 .logo-container {
   width: 100%;
-  max-width: 980px;
+  max-width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   margin-bottom: 20px;
-  padding: 12px;
+  padding: 12px 24px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -90,20 +90,21 @@ body {
 @media (min-width: 768px) {
   .logo-container {
     margin-bottom: 32px;
-    padding: 20px;
+    padding: 20px 40px;
   }
 }
 
 @media (min-width: 1200px) {
   .logo-container {
-    max-width: 1200px;
     margin-bottom: 40px;
+    padding: 24px 60px;
   }
 }
 
 .logo-container img {
-  max-width: 200px;
-  max-height: 80px;
+  max-width: 100%;
+  width: 100%;
+  max-height: 180px;
   object-fit: contain;
   filter: drop-shadow(0 4px 12px rgba(255, 107, 203, 0.3));
   transition: transform 0.3s ease, filter 0.3s ease;
@@ -115,7 +116,7 @@ body {
 }
 
 .brand-name {
-  font-size: 24px;
+  font-size: clamp(36px, 8vw, 80px);
   font-weight: 700;
   background: linear-gradient(120deg, var(--accent), var(--accent-2));
   -webkit-background-clip: text;
@@ -124,28 +125,28 @@ body {
   text-align: center;
   letter-spacing: 0.02em;
   filter: drop-shadow(0 2px 8px rgba(255, 107, 203, 0.4));
+  width: 100%;
 }
 
 @media (min-width: 768px) {
   .brand-name {
-    font-size: 32px;
+    font-size: clamp(48px, 10vw, 120px);
   }
 }
 
 @media (min-width: 1200px) {
   .brand-name {
-    font-size: 40px;
+    font-size: clamp(72px, 12vw, 160px);
   }
 }
 
 @media (max-width: 480px) {
   .logo-container img {
-    max-width: 120px;
-    max-height: 50px;
+    max-height: 120px;
   }
   
   .brand-name {
-    font-size: 20px;
+    font-size: clamp(28px, 7vw, 48px);
   }
 }
 
